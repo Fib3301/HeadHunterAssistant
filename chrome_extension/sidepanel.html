@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Ассистент hh</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-content">
+                <h1>Ассистент hh</h1>
+                <div class="auth-container">
+                    <button id="auth-button" class="auth-button">Войти через HH.ru</button>
+                </div>
+            </div>
+        </div>
+        <div class="chat-container">
+            <div id="chat-messages" class="chat-messages"></div>
+            <div class="input-container">
+                <textarea id="user-input" placeholder="Введите ваше сообщение..." rows="1"></textarea>
+                <button id="send-button">Отправить</button>
+            </div>
+        </div>
+    </div>
+    <script src="lib/marked.min.js"></script>
+    <script src="sidepanel.js"></script>
+</body>
+</html> 

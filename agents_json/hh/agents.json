@@ -1,0 +1,944 @@
+{
+  "agentsJson": "0.1.0",
+  "info": {
+    "title": "HeadHunter API Agent Flows",
+    "version": "0.1.0",
+    "description": "Набор потоков для работы с API HeadHunter, где параметр авторизации обрабатывается вне этих потоков"
+  },
+  "sources": [
+    {
+      "id": "hh",
+      "path": "agents_json/hh/openapi.yaml"
+    }
+  ],
+  "flows": [
+    {
+      "id": "get_current_user_info_flow",
+      "title": "Получить информацию о текущем пользователе",
+      "description": "Возвращает информацию о текущем авторизованном пользователе, включая его имя, email и другие данные.",
+      "actions": [
+        {
+          "id": "fetch_current_user",
+          "sourceId": "hh",
+          "operationId": "get-current-user-info"
+        }
+      ],
+      "links": [
+        {
+          "origin": { "actionId": "get_current_user_info_flow", "fieldPath": "parameters.user-agent" },
+          "target": { "actionId": "fetch_current_user", "fieldPath": "parameters.user-agent" }
+        }
+      ],
+      "fields": {
+        "parameters": [
+          {
+            "name": "user-agent",
+            "description": "User-Agent для запроса",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "success": {
+            "description": "Информация о текущем пользователе"
+          }
+        }
+      }
+    },
+    {
+      "id": "get_active_vacancies_flow",
+      "title": "Просмотр списка опубликованных вакансий",
+      "description": "Возвращает список опубликованных вакансий работодателя",
+      "actions": [
+        {
+          "id": "fetch_active_vacancies",
+          "sourceId": "hh",
+          "operationId": "get-active-vacancy-list"
+        }
+      ],
+      "links": [
+        {
+          "origin": { "actionId": "get_active_vacancies_flow", "fieldPath": "parameters.page" },
+          "target": { "actionId": "fetch_active_vacancies", "fieldPath": "parameters.page" }
+        },
+        {
+          "origin": { "actionId": "get_active_vacancies_flow", "fieldPath": "parameters.per_page" },
+          "target": { "actionId": "fetch_active_vacancies", "fieldPath": "parameters.per_page" }
+        },
+        {
+          "origin": { "actionId": "get_active_vacancies_flow", "fieldPath": "parameters.manager_id" },
+          "target": { "actionId": "fetch_active_vacancies", "fieldPath": "parameters.manager_id" }
+        },
+        {
+          "origin": { "actionId": "get_active_vacancies_flow", "fieldPath": "parameters.text" },
+          "target": { "actionId": "fetch_active_vacancies", "fieldPath": "parameters.text" }
+        },
+        {
+          "origin": { "actionId": "get_active_vacancies_flow", "fieldPath": "parameters.area" },
+          "target": { "actionId": "fetch_active_vacancies", "fieldPath": "parameters.area" }
+        },
+        {
+          "origin": { "actionId": "get_active_vacancies_flow", "fieldPath": "parameters.resume_id" },
+          "target": { "actionId": "fetch_active_vacancies", "fieldPath": "parameters.resume_id" }
+        },
+        {
+          "origin": { "actionId": "get_active_vacancies_flow", "fieldPath": "parameters.order_by" },
+          "target": { "actionId": "fetch_active_vacancies", "fieldPath": "parameters.order_by" }
+        },
+        {
+          "origin": { "actionId": "get_active_vacancies_flow", "fieldPath": "parameters.user-agent" },
+          "target": { "actionId": "fetch_active_vacancies", "fieldPath": "parameters.user-agent" }
+        }
+      ],
+      "fields": {
+        "parameters": [
+          {
+            "name": "page",
+            "description": "Номер страницы (считается от 0)",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "per_page",
+            "description": "Количество элементов на странице",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "manager_id",
+            "description": "Идентификатор менеджера, вакансии которого будут получены",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "text",
+            "description": "Строка для поиска по названию вакансии",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "area",
+            "description": "Идентификатор региона с вакансией",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "resume_id",
+            "description": "Идентификатор резюме для поиска подходящих вакансий",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "order_by",
+            "description": "Способ сортировки вакансий",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "user-agent",
+            "description": "User-Agent для запроса",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "success": {
+            "description": "Список опубликованных вакансий"
+          }
+        }
+      }
+    },
+    {
+      "id": "get_vacancy_info_flow",
+      "title": "Просмотр информации о вакансии",
+      "description": "Возвращает подробную информацию о конкретной вакансии по её идентификатору",
+      "actions": [
+        {
+          "id": "fetch_vacancy_info",
+          "sourceId": "hh",
+          "operationId": "get-vacancy"
+        }
+      ],
+      "links": [
+        {
+          "origin": { "actionId": "get_vacancy_info_flow", "fieldPath": "parameters.vacancy_id" },
+          "target": { "actionId": "fetch_vacancy_info", "fieldPath": "parameters.vacancy_id" }
+        },
+        {
+          "origin": { "actionId": "get_vacancy_info_flow", "fieldPath": "parameters.user-agent" },
+          "target": { "actionId": "fetch_vacancy_info", "fieldPath": "parameters.user-agent" }
+        }
+      ],
+      "fields": {
+        "parameters": [
+          {
+            "name": "vacancy_id",
+            "description": "Идентификатор вакансии",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user-agent",
+            "description": "User-Agent для запроса",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "success": {
+            "description": "Подробная информация о вакансии"
+          }
+        }
+      }
+    },
+    {
+      "id": "search_and_get_vacancy_info_flow",
+      "title": "Поиск вакансии по названию и получение информации",
+      "description": "Находит вакансию по названию и возвращает подробную информацию о ней",
+      "actions": [
+        {
+          "id": "search_vacancy",
+          "sourceId": "hh",
+          "operationId": "get-active-vacancy-list"
+        },
+        {
+          "id": "get_vacancy_details",
+          "sourceId": "hh",
+          "operationId": "get-vacancy"
+        }
+      ],
+      "links": [
+        {
+          "origin": { "actionId": "search_and_get_vacancy_info_flow", "fieldPath": "parameters.search_text" },
+          "target": { "actionId": "search_vacancy", "fieldPath": "parameters.text" }
+        },
+        {
+          "origin": { "actionId": "search_and_get_vacancy_info_flow", "fieldPath": "parameters.user-agent" },
+          "target": { "actionId": "search_vacancy", "fieldPath": "parameters.user-agent" }
+        },
+        {
+          "origin": { "actionId": "search_vacancy", "fieldPath": "responses.success.items[0].id" },
+          "target": { "actionId": "get_vacancy_details", "fieldPath": "parameters.vacancy_id" }
+        },
+        {
+          "origin": { "actionId": "search_and_get_vacancy_info_flow", "fieldPath": "parameters.user-agent" },
+          "target": { "actionId": "get_vacancy_details", "fieldPath": "parameters.user-agent" }
+        }
+      ],
+      "fields": {
+        "parameters": [
+          {
+            "name": "search_text",
+            "description": "Название вакансии для поиска",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "user-agent",
+            "description": "User-Agent для запроса",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "success": {
+            "description": "Подробная информация о найденной вакансии",
+            "properties": {
+              "search_result": {
+                "description": "Результат поиска вакансий"
+              },
+              "vacancy_details": {
+                "description": "Подробная информация о найденной вакансии"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "get_negotiations_by_vacancy_flow",
+      "title": "Получение списка откликов по вакансии",
+      "description": "Получение списка откликов/приглашений по вакансии с возможностью фильтрации",
+      "actions": [
+        {
+          "id": "search_vacancy",
+          "sourceId": "hh",
+          "operationId": "get-active-vacancy-list"
+        },
+        {
+          "id": "get_negotiations",
+          "sourceId": "hh",
+          "operationId": "get-negotiations-list"
+        }
+      ],
+      "links": [
+        {
+          "origin": { "actionId": "get_negotiations_by_vacancy_flow", "fieldPath": "parameters.search_text" },
+          "target": { "actionId": "search_vacancy", "fieldPath": "parameters.text" }
+        },
+        {
+          "origin": { "actionId": "search_vacancy", "fieldPath": "responses.success.items[0].id" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.vacancy_id" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_by_vacancy_flow", "fieldPath": "parameters.salary_from" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.salary_from" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_by_vacancy_flow", "fieldPath": "parameters.salary_to" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.salary_to" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_by_vacancy_flow", "fieldPath": "parameters.experience" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.experience" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_by_vacancy_flow", "fieldPath": "parameters.education_level" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.education_level" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_by_vacancy_flow", "fieldPath": "parameters.age_from" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.age_from" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_by_vacancy_flow", "fieldPath": "parameters.age_to" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.age_to" }
+        }
+      ],
+      "fields": {
+        "parameters": [
+          {
+            "name": "search_text",
+            "description": "Название вакансии для поиска",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "salary_from",
+            "description": "Нижняя граница желаемой заработной платы",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "salary_to",
+            "description": "Верхняя граница желаемой заработной платы",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "experience",
+            "description": "Опыт работы",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "education_level",
+            "description": "Уровень образования",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "age_from",
+            "description": "Нижняя граница возраста соискателя в годах",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "age_to",
+            "description": "Верхняя граница возраста соискателя в годах",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "success": {
+            "description": "Список откликов на вакансию",
+            "properties": {
+              "search_result": {
+                "description": "Результат поиска вакансии"
+              },
+              "negotiations": {
+                "description": "Список откликов на вакансию"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "get_negotiations_with_resume_flow",
+      "title": "Получение списка откликов с информацией о резюме",
+      "description": "Получает список откликов по вакансии и полную информацию о резюме кандидатов",
+      "actions": [
+        {
+          "id": "search_vacancy",
+          "sourceId": "hh",
+          "operationId": "get-active-vacancy-list"
+        },
+        {
+          "id": "get_negotiations",
+          "sourceId": "hh",
+          "operationId": "get-negotiations-list"
+        },
+        {
+          "id": "get_resumes",
+          "sourceId": "hh",
+          "operationId": "get-resume"
+        }
+      ],
+      "links": [
+        {
+          "origin": { "actionId": "get_negotiations_with_resume_flow", "fieldPath": "parameters.search_text" },
+          "target": { "actionId": "search_vacancy", "fieldPath": "parameters.text" }
+        },
+        {
+          "origin": { "actionId": "search_vacancy", "fieldPath": "responses.success.items[0].id" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.vacancy_id" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_with_resume_flow", "fieldPath": "parameters.page" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.page" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_with_resume_flow", "fieldPath": "parameters.per_page" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.per_page" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_with_resume_flow", "fieldPath": "parameters.salary_from" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.salary_from" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_with_resume_flow", "fieldPath": "parameters.salary_to" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.salary_to" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_with_resume_flow", "fieldPath": "parameters.age_from" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.age_from" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_with_resume_flow", "fieldPath": "parameters.age_to" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.age_to" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_with_resume_flow", "fieldPath": "parameters.experience" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.experience" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_with_resume_flow", "fieldPath": "parameters.education_level" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.education_level" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_with_resume_flow", "fieldPath": "parameters.area" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.area" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations", "fieldPath": "responses.success.items[0].resume.id" },
+          "target": { "actionId": "get_resumes", "fieldPath": "parameters.resume_id" }
+        }
+      ],
+      "fields": {
+        "parameters": [
+          {
+            "name": "search_text",
+            "description": "Название вакансии для поиска",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "page",
+            "description": "Номер страницы",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "per_page",
+            "description": "Количество элементов на странице",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "salary_from",
+            "description": "Нижняя граница зарплаты",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "salary_to",
+            "description": "Верхняя граница зарплаты",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "age_from",
+            "description": "Нижняя граница возраста",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "age_to",
+            "description": "Верхняя граница возраста",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "experience",
+            "description": "Опыт работы",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "education_level",
+            "description": "Уровень образования",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "area",
+            "description": "Идентификатор региона из справочника регионов",
+            "required": false,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "success": {
+            "description": "Список откликов с информацией о резюме",
+            "properties": {
+              "search_result": {
+                "description": "Результат поиска вакансии"
+              },
+              "negotiations": {
+                "description": "Список откликов на вакансию"
+              },
+              "resume": {
+                "description": "Информация о резюме кандидата"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "get_negotiations_and_change_state_flow",
+      "title": "Получение списка откликов и изменение их состояния",
+      "description": "Получение списка откликов/приглашений по вакансии и изменение состояния конкретного отклика",
+      "actions": [
+        {
+          "id": "search_vacancy",
+          "sourceId": "hh",
+          "operationId": "get-active-vacancy-list"
+        },
+        {
+          "id": "get_negotiations",
+          "sourceId": "hh",
+          "operationId": "get-negotiations-list"
+        },
+        {
+          "id": "change_negotiation_state",
+          "sourceId": "hh",
+          "operationId": "change-negotiation-action"
+        }
+      ],
+      "links": [
+        {
+          "origin": { "actionId": "get_negotiations_and_change_state_flow", "fieldPath": "parameters.search_text" },
+          "target": { "actionId": "search_vacancy", "fieldPath": "parameters.text" }
+        },
+        {
+          "origin": { "actionId": "search_vacancy", "fieldPath": "responses.success.items[0].id" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.vacancy_id" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_and_change_state_flow", "fieldPath": "parameters.salary_from" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.salary_from" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_and_change_state_flow", "fieldPath": "parameters.salary_to" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.salary_to" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_and_change_state_flow", "fieldPath": "parameters.experience" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.experience" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_and_change_state_flow", "fieldPath": "parameters.education_level" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.education_level" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_and_change_state_flow", "fieldPath": "parameters.age_from" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.age_from" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_and_change_state_flow", "fieldPath": "parameters.age_to" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.age_to" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations", "fieldPath": "responses.success.items[0].id" },
+          "target": { "actionId": "change_negotiation_state", "fieldPath": "parameters.negotiation_id" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations_and_change_state_flow", "fieldPath": "parameters.new_state" },
+          "target": { "actionId": "change_negotiation_state", "fieldPath": "parameters.new_state" }
+        }
+      ],
+      "fields": {
+        "parameters": [
+          {
+            "name": "search_text",
+            "description": "Название вакансии для поиска",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "salary_from",
+            "description": "Нижняя граница желаемой заработной платы",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "salary_to",
+            "description": "Верхняя граница желаемой заработной платы",
+            "required": false,
+            "type": "number"
+          },
+          {
+            "name": "experience",
+            "description": "Опыт работы",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "education_level",
+            "description": "Уровень образования",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "age_from",
+            "description": "Нижняя граница возраста соискателя в годах",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "age_to",
+            "description": "Верхняя граница возраста соискателя в годах",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "new_state",
+            "description": "Новое состояние отклика (response/invitation/discard/hidden)",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "success": {
+            "description": "Результат изменения состояния отклика",
+            "properties": {
+              "search_result": {
+                "description": "Результат поиска вакансии"
+              },
+              "negotiations": {
+                "description": "Список откликов на вакансию"
+              },
+              "state_change": {
+                "description": "Результат изменения состояния отклика"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "analyze_resume_and_respond_flow",
+      "title": "Анализ резюме и автоматический ответ",
+      "description": "Анализирует резюме кандидата и автоматически принимает решение о приглашении или отказе",
+      "actions": [
+        {
+          "id": "search_vacancy",
+          "sourceId": "hh",
+          "operationId": "get-active-vacancy-list"
+        },
+        {
+          "id": "get_negotiations",
+          "sourceId": "hh",
+          "operationId": "get-negotiations-list"
+        },
+        {
+          "id": "get_resume",
+          "sourceId": "hh",
+          "operationId": "get-resume"
+        },
+        {
+          "id": "analyze_resume",
+          "sourceId": "hh",
+          "operationId": "analyze-resume"
+        },
+        {
+          "id": "change_negotiation_state",
+          "sourceId": "hh",
+          "operationId": "change-negotiation-action"
+        }
+      ],
+      "links": [
+        {
+          "origin": { "actionId": "analyze_resume_and_respond_flow", "fieldPath": "parameters.search_text" },
+          "target": { "actionId": "search_vacancy", "fieldPath": "parameters.text" }
+        },
+        {
+          "origin": { "actionId": "search_vacancy", "fieldPath": "responses.success.items[0].id" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.vacancy_id" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations", "fieldPath": "responses.success.items[0].resume.id" },
+          "target": { "actionId": "get_resume", "fieldPath": "parameters.resume_id" }
+        },
+        {
+          "origin": { "actionId": "get_resume", "fieldPath": "responses.success" },
+          "target": { "actionId": "analyze_resume", "fieldPath": "parameters.resume_data" }
+        },
+        {
+          "origin": { "actionId": "analyze_resume", "fieldPath": "responses.success.should_invite" },
+          "target": { "actionId": "change_negotiation_state", "fieldPath": "parameters.new_state" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations", "fieldPath": "responses.success.items[0].id" },
+          "target": { "actionId": "change_negotiation_state", "fieldPath": "parameters.negotiation_id" }
+        }
+      ],
+      "fields": {
+        "parameters": [
+          {
+            "name": "search_text",
+            "description": "Название вакансии для поиска",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "analysis_criteria",
+            "description": "Критерии для анализа резюме (например, 'высшее техническое образование')",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "success": {
+            "description": "Результат анализа и изменения состояния отклика",
+            "properties": {
+              "search_result": {
+                "description": "Результат поиска вакансии"
+              },
+              "negotiations": {
+                "description": "Список откликов на вакансию"
+              },
+              "resume_analysis": {
+                "description": "Результат анализа резюме"
+              },
+              "state_change": {
+                "description": "Результат изменения состояния отклика"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "generate_rejection_message_flow",
+      "title": "Генерация персонализированного сообщения отказа",
+      "description": "Анализирует резюме кандидата и генерирует персонализированное сообщение отказа",
+      "actions": [
+        {
+          "id": "search_vacancy",
+          "sourceId": "hh",
+          "operationId": "get-active-vacancy-list"
+        },
+        {
+          "id": "get_negotiations",
+          "sourceId": "hh",
+          "operationId": "get-negotiations-list"
+        },
+        {
+          "id": "get_resume",
+          "sourceId": "hh",
+          "operationId": "get-resume"
+        },
+        {
+          "id": "generate_message",
+          "sourceId": "hh",
+          "operationId": "generate-rejection-message"
+        },
+        {
+          "id": "change_negotiation_state",
+          "sourceId": "hh",
+          "operationId": "change-negotiation-action"
+        }
+      ],
+      "links": [
+        {
+          "origin": { "actionId": "generate_rejection_message_flow", "fieldPath": "parameters.search_text" },
+          "target": { "actionId": "search_vacancy", "fieldPath": "parameters.text" }
+        },
+        {
+          "origin": { "actionId": "search_vacancy", "fieldPath": "responses.success.items[0].id" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.vacancy_id" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations", "fieldPath": "responses.success.items[0].resume.id" },
+          "target": { "actionId": "get_resume", "fieldPath": "parameters.resume_id" }
+        },
+        {
+          "origin": { "actionId": "get_resume", "fieldPath": "responses.success" },
+          "target": { "actionId": "generate_message", "fieldPath": "parameters.resume_data" }
+        },
+        {
+          "origin": { "actionId": "generate_message", "fieldPath": "responses.success.message" },
+          "target": { "actionId": "change_negotiation_state", "fieldPath": "parameters.message" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations", "fieldPath": "responses.success.items[0].id" },
+          "target": { "actionId": "change_negotiation_state", "fieldPath": "parameters.negotiation_id" }
+        }
+      ],
+      "fields": {
+        "parameters": [
+          {
+            "name": "search_text",
+            "description": "Название вакансии для поиска",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "rejection_reason",
+            "description": "Причина отказа (например, 'отсутствие технического образования')",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "message_tone",
+            "description": "Тон сообщения (formal/friendly/professional)",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "success": {
+            "description": "Результат генерации сообщения и изменения состояния отклика",
+            "properties": {
+              "search_result": {
+                "description": "Результат поиска вакансии"
+              },
+              "negotiations": {
+                "description": "Список откликов на вакансию"
+              },
+              "generated_message": {
+                "description": "Сгенерированное сообщение отказа"
+              },
+              "state_change": {
+                "description": "Результат изменения состояния отклика"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "id": "generate_invitation_message_flow",
+      "title": "Генерация персонализированного приглашения",
+      "description": "Анализирует резюме кандидата и генерирует персонализированное приглашение на собеседование",
+      "actions": [
+        {
+          "id": "search_vacancy",
+          "sourceId": "hh",
+          "operationId": "get-active-vacancy-list"
+        },
+        {
+          "id": "get_negotiations",
+          "sourceId": "hh",
+          "operationId": "get-negotiations-list"
+        },
+        {
+          "id": "get_resume",
+          "sourceId": "hh",
+          "operationId": "get-resume"
+        },
+        {
+          "id": "generate_message",
+          "sourceId": "hh",
+          "operationId": "generate-invitation-message"
+        },
+        {
+          "id": "change_negotiation_state",
+          "sourceId": "hh",
+          "operationId": "change-negotiation-action"
+        }
+      ],
+      "links": [
+        {
+          "origin": { "actionId": "generate_invitation_message_flow", "fieldPath": "parameters.search_text" },
+          "target": { "actionId": "search_vacancy", "fieldPath": "parameters.text" }
+        },
+        {
+          "origin": { "actionId": "search_vacancy", "fieldPath": "responses.success.items[0].id" },
+          "target": { "actionId": "get_negotiations", "fieldPath": "parameters.vacancy_id" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations", "fieldPath": "responses.success.items[0].resume.id" },
+          "target": { "actionId": "get_resume", "fieldPath": "parameters.resume_id" }
+        },
+        {
+          "origin": { "actionId": "get_resume", "fieldPath": "responses.success" },
+          "target": { "actionId": "generate_message", "fieldPath": "parameters.resume_data" }
+        },
+        {
+          "origin": { "actionId": "generate_message", "fieldPath": "responses.success.message" },
+          "target": { "actionId": "change_negotiation_state", "fieldPath": "parameters.message" }
+        },
+        {
+          "origin": { "actionId": "get_negotiations", "fieldPath": "responses.success.items[0].id" },
+          "target": { "actionId": "change_negotiation_state", "fieldPath": "parameters.negotiation_id" }
+        }
+      ],
+      "fields": {
+        "parameters": [
+          {
+            "name": "search_text",
+            "description": "Название вакансии для поиска",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "interview_details",
+            "description": "Детали собеседования (дата, время, формат)",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "message_tone",
+            "description": "Тон сообщения (formal/friendly/professional)",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "success": {
+            "description": "Результат генерации сообщения и изменения состояния отклика",
+            "properties": {
+              "search_result": {
+                "description": "Результат поиска вакансии"
+              },
+              "negotiations": {
+                "description": "Список откликов на вакансию"
+              },
+              "generated_message": {
+                "description": "Сгенерированное сообщение приглашения"
+              },
+              "state_change": {
+                "description": "Результат изменения состояния отклика"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+} 
