@@ -37,7 +37,6 @@ AI-ассистент для работы с API HeadHunter, использую�
 - GigaChat API
 - HeadHunter API
 - SQLAlchemy
-- LangChain
 
 ## Установка
 
